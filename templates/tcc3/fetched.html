@@ -4,9 +4,13 @@
     {% block content %}
         <h1>Grabbed These Links</h1>
         {% for site, site_data in all_data.items %}
-            <h3><strong>{{ site }}</strong>, most recent post was {{ site_data.meta.last_updated_epoch }}</h3><br />
+        <div class="col">    
+            <img src="/static/img/titles/{{ site }}.jpg" />
             {% for post in site_data.posts.values %}
-                {{ post.title }} at {{ post.date }}:<br /> {{ post.link }} <br /><br />
+            <a href='{{ post.link }}' target='_blank'><div class='item new'>
+                {{ post.title }}
+		    </div></a>
             {% endfor %}
+        </div>
         {% endfor %}
     {% endblock %}

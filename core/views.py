@@ -81,18 +81,7 @@ def fetch_posts(request):
             return HttpResponse("malformed feed for %s" % site)
             
         # try to get the most recent item and find when it was published
-        last_updated = feed.entries[0].updated
-        all_fetched_posts[site]['meta']['last_updated_string'] = feed.entries[0].updated
-        
-        # different date formats on different sites, oh boy!
-        if site == 'hf':
-            all_fetched_posts[site]['meta']['last_updated_datetime'] = datetime.strptime(last_updated, '%Y-%m-%dT%H:%M:%S.%f-05:00')
-        elif site == 'fnt':
-            all_fetched_posts[site]['meta']['last_updated_datetime'] = datetime.strptime(last_updated, '%a, %d %b %Y %H:%M:%S PST')
-        else:
-            all_fetched_posts[site]['meta']['last_updated_datetime'] = datetime.strptime(last_updated, '%a, %d %b %Y %H:%M:%S +0000')
-            
-        all_fetched_posts[site]['meta']['last_updated_epoch'] = mktime( all_fetched_posts[site]['meta']['last_updated_dt'].timetuple() )
+        all_fetched_posts[site]['meta']['last_updated_epoch'] = string_to_epoch(feed.entries[0].updated, site)
         
         for item in range( min(10, len(feed.entries) ) ):
             try:
@@ -107,5 +96,20 @@ def fetch_posts(request):
             
             all_fetched_posts[site]['posts'][item] = post_data
             #Post.objects.create(site=site, url=link, title=title, published=date)
-    assert False
+
     return render_to_response('tcc3/fetched.html', {'all_data': all_fetched_posts})
+
+# helper functions
+def string_to_epoch(datetime_string, site):
+    # different date formats on different sites, oh boy!
+    if site == 'hf':
+        format_string = '%Y-%m-%dT%H:%M:%S.%f-05:00'
+    elif site == 'fnt':
+        format_string = '%a, %d %b %Y %H:%M:%S PST'
+    else:
+        format_string = '%a, %d %b %Y %H:%M:%S +0000'
+        
+    datetime_object = datetime.strptime(datetime_string, format_string)
+    return mktime( datetime_object.timetuple() )
+        
+        
