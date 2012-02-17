@@ -1,0 +1,9 @@
+{% extends "tcc2/base.html" %}
+        {% block title %}The College Cartel{% endblock %}
+    
+    {% block content %}
+        <h1>Home Page</h1>
+        {% for site in sites %}
+            <img src="/static/img/titles/{{ site }}.jpg"><br />
+        {% endfor %}
+    {% endblock %}

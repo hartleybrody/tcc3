@@ -1,0 +1,69 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>{% block title %} {% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/html5-dr-reset.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/tcc-styles.css">
+        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        
+        <!--FACEBOOK META INFO-->
+        <meta property="og:title" content="The College Cartel"/> 
+        <meta property="og:type" content="website"/> 
+        <meta property="og:image" content="http://www.thecollegecartel.com/img/icon.jpg"/> 
+        <meta property="og:URL" content="http://www.thecollegecartel.com/"/> 
+        <meta property="og:site_name" content="The College Cartel"/> 
+        <meta property="fb:admins" content="hartbro"/> 
+        <meta property="fb:admins" content="1428990153" />
+        
+        <!--SEO META INFO-->
+        <meta name="description" content="The College Cartel scrapes all of the best new college music from the top college music blogs, making it a one-stop-shop for all of the hottest tracks.">
+        <meta name="keywords" content="New Music, Party Music, Frat Music, Hip-Hop, Dubstep, Rap, Pop, Good Music">
+    </head>
+
+    <body>
+    
+        <div id="toolbar">
+            <div id="guts">
+                <span id="icon"><a href="/"><img src="/static/img/toolbar-logo.png" alt="" height="30px" /></a></span>
+                
+                <span id="title">
+                    <noscript>It looks like you have Javscript turned off. You'll need <a href="http://www.google.com/support/bin/answer.py?hl=en&answer=23852" target="_blank">to turn it on</a> to use the site...</noscript>
+                </span>		
+
+                <span id="ratings">
+
+                </span>
+                
+                <span id="share">
+                    <div style="float:left; margin-left:10px;"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fthecollegecartel&amp;layout=button_count&amp;show_faces=false&amp;width=90&amp;action=like&amp;font&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe></div>
+                    
+                    <div style="float:left"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="TCCkingpin">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
+                    
+                </span>
+                
+                <span id="next">
+                    <a href="#">BROWSE &raquo;</a>
+                </span>
+                
+            </div><!--#guts-->
+        </div><!--#toolbar-->
+        
+        <div id="wrapper">
+            <div id="content">
+            
+                {% block nav %} {% endblock %}
+                {% block content %} {% endblock %}
+                {% block footer %} {% endblock %}
+            </div><!--#content-->
+            
+            <footer>
+                &copy; The College Cartel 2012 <span style="float:right"><a href="/">Home</a> &#183; <a href="/legal">Legal</a> &#183; <a href="/contact?advertise">Advertise</a> &#183; <a href="/connect">Connect</a> &#183; <a href="/analytics">Live Stats</a></span>
+            </footer>
+        
+        </div><!--#wrapper-->
+        
+    </body>
+</html>

@@ -1,0 +1,12 @@
+{% extends "tcc2/base.html" %}
+        {% block title %}The College Cartel | Fetched Posts{% endblock %}
+    
+    {% block content %}
+        <h1>Grabbed These Links</h1>
+        {% for site, site_data in all_data.items %}
+            <h3><strong>{{ site }}</strong>, most recent post was {{ site_data.meta.last_updated_epoch }}</h3><br />
+            {% for post in site_data.posts.values %}
+                {{ post.title }} at {{ post.date }}:<br /> {{ post.link }} <br /><br />
+            {% endfor %}
+        {% endfor %}
+    {% endblock %}
