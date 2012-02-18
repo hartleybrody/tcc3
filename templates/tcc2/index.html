@@ -4,6 +4,14 @@
     {% block content %}
         <h1>Home Page</h1>
         {% for site in sites %}
+        <div class="col">  
             <img src="/static/img/titles/{{ site }}.jpg"><br />
+            {% for post in all_fetched_posts %}
+            {{ post }}
+            <a href='{{ post.link }}' target='_blank'><div class='item new'>
+                {{ post.title }}
+		    </div></a><!-- {{ post.date }} -->
+            {% endfor %}
+        </div>
         {% endfor %}
     {% endblock %}

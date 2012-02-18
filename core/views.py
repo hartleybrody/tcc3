@@ -17,13 +17,14 @@ def home_page(request):
     """pull the posts for each of the sites on the homepage from the db"""
 
     max_posts = 7
-    posts_data = {}
+    all_fetched_posts = {}
     
     for site in settings.SITES:
+        all_fetched_posts[site] = {}
         posts = Post.objects.filter(site=site).order_by("published")[0:max_posts]
-        posts_data[site] = posts
-    
-    return render_to_response('tcc2/index.html', {'posts_data': posts_data, 'sites': settings.SITES})
+        all_fetched_posts[site] = posts
+    #assert False
+    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITES})
 
 def post(request, post_num):
     try:
@@ -127,6 +128,7 @@ def epoch_to_django_date(epoch):
     return "%s-%s-%s %s:%s" % (time.tm_year, str(time.tm_mon).zfill(2), str(time.tm_mday).zfill(2), time.tm_hour, time.tm_min)
     
 
+# smoke test!
 def smoke_test(request):
     """is anything on fire? no? good."""
     now = datetime.now()
