@@ -9,7 +9,7 @@
             {% for post in site_data.posts.values %}
             <a href='{{ post.link }}' target='_blank'><div class='item new'>
                 {{ post.title }}
-		    </div></a>
+		    </div></a><!-- {{ post.date }} -->
             {% endfor %}
         </div>
         {% endfor %}

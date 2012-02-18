@@ -20,7 +20,7 @@ from django.db import models
 
 class Post(models.Model):
     site           = models.CharField(max_length=5)
-    url            = models.URLField()
+    url            = models.URLField(unique=True)
     title          = models.CharField(max_length=255)
     img_URL        = models.URLField()
     published      = models.DateTimeField()
