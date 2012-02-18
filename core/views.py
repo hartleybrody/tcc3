@@ -12,6 +12,7 @@ from tcc3.core.models import Post, Post_Access
 from datetime import datetime
 from time import mktime, gmtime
 import feedparser
+from BeautifulSoup import BeautifulSoup
 
 def home_page(request):
     """pull the posts for each of the sites on the homepage from the db"""
@@ -21,9 +22,9 @@ def home_page(request):
     
     for site in settings.SITES:
         all_fetched_posts[site] = {}
-        posts = Post.objects.filter(site=site).order_by("published")[0:max_posts]
+        posts = Post.objects.filter(site=site).order_by("-published")[0:max_posts]
         all_fetched_posts[site] = posts
-    #assert False
+    
     return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITES})
 
 def post(request, post_num):
@@ -80,32 +81,38 @@ def fetch_posts(request):
             return HttpResponse("malformed feed for %s" % site)
             
         # try to get the most recent item and find when it was published
-        all_fetched_posts[site]['meta']['last_updated_epoch'] = string_to_epoch(feed.entries[0].updated, site)
+        # all_fetched_posts[site]['meta']['last_updated_epoch'] = string_to_epoch(feed.entries[0].updated, site)
         
         for item in range( min(10, len(feed.entries) ) ):   # 10 is a sanity cap so we don't parse entire 100 item feed
             try:
-                title   = feed.entries[item].title 
-                link    = feed.entries[item].link
-                epoch   = string_to_epoch( feed.entries[item].updated, site )
-            except:
+                #as per usual, hypefloats is the outlier
+                if not site == 'hf':
+                  raw_html  = feed.entries[item].content 
+                else:
+                  raw_html  = feed.entries[item].summary
+                title       = feed.entries[item].title 
+                link        = feed.entries[item].link
+                epoch       = string_to_epoch( feed.entries[item].updated, site )
+            except Exception as e:
                 # log value not found
-                return HttpResponse("error getting value for %s" % site)            
+                return HttpResponse("error getting value for %s: %s" % (site, str(e)) ) 
+
+            date = epoch_to_django_date( epoch )
+            img_url = get_post_image( str(raw_html) )
             
             # now that we've gotten the values for this feed item, let's see if we have it in the DB
             try:
                 p = Post.objects.get(url=link)
             except Post.DoesNotExist:
-                date = epoch_to_django_date( epoch )
-                Post.objects.create(site=site, url=link, title=title, published=date)
-                
-                # get the data to pass to view, in case someone's watching
-                post_data = dict(title=title, link=link, date=date)
-                all_fetched_posts[site]['posts'][item] = post_data
+                Post.objects.create(site=site, url=link, title=title, published=date, img_url=img_url)
             else:
                 # this post already exists, don't add it
                 pass
+                
+            # get the data to pass to view, in case someone's watching
+            post_data = dict(title=title, link=link, date=date, img_url=img_url)
+            all_fetched_posts[site]['posts'][item] = post_data
             
-
     return render_to_response('tcc3/fetched.html', {'all_data': all_fetched_posts})
 
 # helper functions
@@ -124,8 +131,24 @@ def string_to_epoch(datetime_string, site):
     return mktime( datetime_object.timetuple() )
     
 def epoch_to_django_date(epoch):
+    """takes an epoch time and spits out a string that django will save in a DateTimeField"""
     time = gmtime(epoch)
     return "%s-%s-%s %s:%s" % (time.tm_year, str(time.tm_mon).zfill(2), str(time.tm_mday).zfill(2), time.tm_hour, time.tm_min)
+
+def get_post_image(html):
+    """try to find a good thumbnail for a post, returning nothing if not found"""
+    banned_strings = ["doubleclick", "feedburner", "tweetmeme", "hulkshare", "tracker", "phobos", "apple"]
+    soup = BeautifulSoup(html)
+    images = soup.findAll('img')
+    for img in images:
+        src = img['src']
+        contains_banned = False
+        for substring in banned_strings:
+            if substring in src:
+                contains_banned = True
+        if not contains_banned:
+            return src
+    return ''
     
 
 # smoke test!

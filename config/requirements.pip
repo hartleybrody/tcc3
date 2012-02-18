@@ -1,2 +1,3 @@
 feedparser==5.1
 django==1.3.0
+BeautifulSoup==3.2.1
