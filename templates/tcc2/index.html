@@ -6,11 +6,14 @@
         {% for site in sites %}
         <div class="col">  
             <img src="/static/img/titles/{{ site }}.jpg"><br />
-            {% for post in all_fetched_posts %}
-            {{ post }}
-            <a href='{{ post.link }}' target='_blank'><div class='item new'>
+            {% for column_token, column in all_fetched_posts.items %}
+                {% ifequal site column_token %}
+                    {% for post in column %}
+            <a href='{{ post.url }}' target='_blank'><div class='item new'>
                 {{ post.title }}
 		    </div></a><!-- {{ post.date }} -->
+                    {% endfor %}
+                {% endifequal %}
             {% endfor %}
         </div>
         {% endfor %}
