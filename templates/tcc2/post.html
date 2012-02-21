@@ -3,12 +3,13 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>{% block title %} {% endblock %}</title>
+        <title>{{ post.title }} | The College Cartel</title>
         <link rel="stylesheet" type="text/css" href="/static/css/html5-dr-reset.css">
         <link rel="stylesheet" type="text/css" href="/static/css/tcc-styles.css">
         <link rel="stylesheet" type="text/css" href="/static/css/tcc-styles-override.css">
         
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script src="/static/js/post.js"></script>
         
         <!--FACEBOOK META INFO-->
         <meta property="og:title" content="The College Cartel"/> 
@@ -24,8 +25,8 @@
         <meta name="keywords" content="New Music, Party Music, Frat Music, Hip-Hop, Dubstep, Rap, Pop, Good Music">
     </head>
 
-    <body>
-        {% block toolbar %}
+    <body style="overflow:hidden; height:100%">
+    
         <div id="toolbar">
             <div id="guts">
                 <span id="icon"><a href="/"><img src="/static/img/toolbar-logo.png" alt="" height="30px" /></a></span>
@@ -46,24 +47,30 @@
                 </span>
                 
                 <span id="next">
-                    <a href="#">BROWSE &raquo;</a>
+                    <a href="#">NEXT &raquo;</a>
                 </span>
                 
             </div><!--#guts-->
         </div><!--#toolbar-->
-        {% endblock %}
-    <div id="wrapper">
-        <div id="content"> 
-        {% block content %} 
-
-        {% endblock %}
-        </div><!--#content-->       
-            {% block footer %}
-            <footer>
-                &copy; The College Cartel 2012 <span style="float:right"><a href="/">Home</a> &#183; <a href="/legal">Legal</a> &#183; <a href="/contact?advertise">Advertise</a> &#183; <a href="/connect">Connect</a> &#183; <a href="/analytics">Live Stats</a></span>
-            </footer>
-            {% endblock %}
-        </div><!--#wrapper-->
+    
+        <iframe src="{{ post.url }}" frameborder="0" noresize="noresize" style="position:absolute; background:transparent; width:100%; height:100%; top:40px; padding:0;" id="blogpage" />
         
-    </body>
+        <script type="text/javascript">
+
+              var _gaq = _gaq || [];
+              _gaq.push(['_setAccount', 'UA-18240557-1']);
+              _gaq.push(['_trackPageview']);
+              _gaq.push(['_trackPageLoadTime']);
+
+              (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+              })();
+              
+              function hide() { document.getElementById('welcome').style.display = 'none'; }
+
+        </script>
+
+</body>
 </html>

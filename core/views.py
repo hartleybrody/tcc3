@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 
 # app stuff
-from tcc3.core.models import Post, Post_Access
+from tcc3.core.models import Visitor, Post, Post_Access
 
 # 3rd party stuff
 from datetime import datetime
@@ -20,10 +20,16 @@ def home_page(request):
     max_posts = 7
     all_fetched_posts = {}
     
+    # get all the posts
     for site in settings.SITES:
         all_fetched_posts[site] = {}
         posts = Post.objects.filter(site=site).order_by("-published")[0:max_posts]
         all_fetched_posts[site] = posts
+    
+    # create new visitor if we haven't seen them before
+    if not request.session.get('visitor_id', None):
+        v = Visitor.objects.create()
+        request.session['visitor_id'] = v.id
     
     return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA})
 
@@ -32,7 +38,18 @@ def post(request, post_num):
         post_id = int(post_num)
     except ValueError:
         raise Http404()
-    return HttpResponse("you are trying to view post number %d" % post_id)
+    
+    post = Post.objects.get(id=post_id)
+    
+    # log this visitor's post access
+    visitor_id = request.session.get('visitor_id', None)
+    if visitor_id:
+        visitor = Visitor.objects.get(id=visitor_id)
+        a = Post_Access.objects.create(site=post.site, rating=0, post=post, type_of_access='', visitor=visitor)
+    else:
+        a = Post_Access.objects.create(site=post.site, rating=0, post=post, type_of_access='', visitor=None)
+        
+    return render_to_response('tcc2/post.html', {'post' : post})
     
 def fetch_posts(request):
     """check all the sites to see if there are new posts and write then into the db if so"""

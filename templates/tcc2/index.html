@@ -4,11 +4,11 @@
     {% block content %}
         {% for site in sites %}
         <div class="col">  
-            <a href="{{ site.url }}" target="_blank">{{ site.name }}</a>
+            <a href="{{ site.url }}" target="_blank" class="col_title">{{ site.name }}</a>
             {% for posts_token, posts in all_fetched_posts.items %}
                 {% ifequal site.token posts_token %}
                     {% for post in posts %}
-            <a href='/post/{{ post.id }}/' target='_blank'><div class='item new'>
+            <a href='/post/{{ post.id }}/'><div class='item new'>
                 {{ post.title }}
 		    </div></a><!-- {{ post.date }} -->
                     {% endfor %}
