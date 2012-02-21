@@ -27,9 +27,6 @@ class Post(models.Model):
     
     def __unicode__(self):
         return self.title
-        
-    # class Meta:
-        # ordering = ['published']
     
 class Post_Access(models.Model):
     date            = models.DateTimeField(auto_now_add=True)
@@ -40,8 +37,4 @@ class Post_Access(models.Model):
     #user            = models.ForeignKey(User)
     
     def __unicode__(self):
-        #return u"visited %s on %s" % (self.site, str(self.date)
-        return self.date
-        
-    # class Meta:
-        # ordering = ['date']
+        return self.date      

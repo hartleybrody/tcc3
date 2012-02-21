@@ -4,16 +4,17 @@
     {% block content %}
         {% for site in sites %}
         <div class="col">  
-            <img src="/static/img/titles/{{ site }}.jpg"><br />
-            {% for column_token, column in all_fetched_posts.items %}
-                {% ifequal site column_token %}
-                    {% for post in column %}
-            <a href='{{ post.url }}' target='_blank'><div class='item new'>
+            <a href="{{ site.url }}" target="_blank">{{ site.name }}</a>
+            {% for posts_token, posts in all_fetched_posts.items %}
+                {% ifequal site.token posts_token %}
+                    {% for post in posts %}
+            <a href='/post/{{ post.id }}/' target='_blank'><div class='item new'>
                 {{ post.title }}
 		    </div></a><!-- {{ post.date }} -->
                     {% endfor %}
                 {% endifequal %}
             {% endfor %}
+        <div class="bottom"><a href="{{ site.url }}" target="_blank">View More &raquo;</a></div>
         </div>
         {% endfor %}
     {% endblock %}

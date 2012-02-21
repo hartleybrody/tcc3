@@ -1,7 +1,7 @@
 # Create your views here.
 
 # django stuff
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 from django.conf import settings
 
@@ -25,7 +25,7 @@ def home_page(request):
         posts = Post.objects.filter(site=site).order_by("-published")[0:max_posts]
         all_fetched_posts[site] = posts
     
-    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITES})
+    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA})
 
 def post(request, post_num):
     try:
@@ -62,13 +62,16 @@ def fetch_posts(request):
     
     all_fetched_posts = {} # initialize this motherfucker!
     
-    for site in settings.SITES:
+    for site_num in range(len(settings.SITE_DATA)):
+        
+        # pull the meta information about the site we're parsing
+        site        = settings.SITE_DATA[site_num]['token']
+        feed_url    = settings.SITE_DATA[site_num]['feed']
     
         all_fetched_posts[site] = {}
         all_fetched_posts[site]['meta'] = {}
         all_fetched_posts[site]['posts'] = {}
         
-        feed_url = settings.SITES_DATA[site]['feed']
         feed = feedparser.parse(feed_url)
         
         # did we catch anything good?
@@ -137,9 +140,12 @@ def epoch_to_django_date(epoch):
 
 def get_post_image(html):
     """try to find a good thumbnail for a post, returning nothing if not found"""
-    banned_strings = ["doubleclick", "feedburner", "tweetmeme", "hulkshare", "tracker", "phobos", "apple"]
+    
+    banned_strings = ["doubleclick", "feedburner", "tweetmeme", "hulkshare", "tracker", "phobos", "apple"] # ignore tracking pixels
     soup = BeautifulSoup(html)
     images = soup.findAll('img')
+    
+    # note, we proceed through the HTML from top to bottom, returning the first suitable image we find
     for img in images:
         src = img['src']
         contains_banned = False
@@ -150,7 +156,6 @@ def get_post_image(html):
             return src
     return ''
     
-
 # smoke test!
 def smoke_test(request):
     """is anything on fire? no? good."""
