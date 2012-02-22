@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
 from tcc3.core import views
+from django.views.decorators.cache import cache_page
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -18,8 +19,8 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     
     
-    (r'^$',                     views.home_page),
-    (r'^post/(\d+)/$',          views.post),
+    (r'^$',                     cache_page(views.home_page, 60 * 15 ) ),
+    (r'^post/(\d+)/$',          cache_page(views.post, 60 * 60 * 24) ),
     
     (r'^posts/fetch/$',         views.fetch_posts),
     

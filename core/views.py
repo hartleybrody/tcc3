@@ -49,7 +49,7 @@ def post(request, post_num):
     else:
         a = Post_Access.objects.create(site=post.site, rating=0, post=post, type_of_access='', visitor=None)
         
-    return render_to_response('tcc2/post.html', {'post' : post})
+    return render_to_response('tcc2/post.html', {'post' : post, 'next_post_id' : post.id - 1})
     
 def fetch_posts(request):
     """check all the sites to see if there are new posts and write then into the db if so"""
