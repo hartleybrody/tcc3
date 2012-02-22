@@ -6,13 +6,13 @@
         <div class="col">  
             <a href="{{ site.url }}" target="_blank" class="col_title">{{ site.name }}</a>
             {% for posts_token, posts in all_fetched_posts.items %}
+            <ul>
                 {% ifequal site.token posts_token %}
                     {% for post in posts %}
-            <a href='/post/{{ post.id }}/'><div class='item new'>
-                {{ post.title }}
-		    </div></a><!-- {{ post.date }} -->
+            <a href='/post/{{ post.id }}/'><li class='item new'>{{ post.title }}</li></a><!-- {{ post.date }} -->
                     {% endfor %}
                 {% endifequal %}
+            </ul>
             {% endfor %}
         <div class="bottom"><a href="{{ site.url }}" target="_blank">View More &raquo;</a></div>
         </div>

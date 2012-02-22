@@ -2,7 +2,7 @@
 
 # django stuff
 from django.http import HttpResponse, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.conf import settings
 
 # app stuff
@@ -39,7 +39,7 @@ def post(request, post_num):
     except ValueError:
         raise Http404()
     
-    post = Post.objects.get(id=post_id)
+    post =  get_object_or_404(Post, id=post_id)
     
     # log this visitor's post access
     visitor_id = request.session.get('visitor_id', None)
