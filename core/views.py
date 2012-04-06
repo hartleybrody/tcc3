@@ -92,7 +92,7 @@ def fetch_posts(request):
         
     """
     
-    all_fetched_posts = {} # initialize this motherfucker!
+    all_fetched_posts = {} # initialize this mofo!
     
     for site_num in range(len(settings.SITE_DATA)):
         
@@ -200,17 +200,20 @@ def get_popular_post(site):
     except:
         last_popular_post = False
         
-    cutoff = datetime.now() + timedelta(hours=-4)
+    cutoff = datetime.now() - timedelta(hours=4)
     
     if not last_popular_post or last_popular_post.date_calculated < cutoff:
         # too old, time to recalculate
-        recent_accesses = Post_Access.objects.filter(site=site)
+        recent_accesses = Post_Access.objects.filter(site=site).order_by('-date')
         
         count_accesses = {}
         for access in recent_accesses:
             post = access.post
-            count = count_accesses.setdefault(post, 0) + 1
-            count_accesses[post] = count
+            if post.date > cutoff:
+                count = count_accesses.setdefault(post, 0) + 1
+                count_accesses[post] = count
+            else:
+                break
             
         most_accessed = sorted(count_accesses.items(), key= lambda x: x[1], reverse=True)[0][0]
         
