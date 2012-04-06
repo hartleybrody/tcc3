@@ -47,4 +47,4 @@ class Popular_Post(models.Model):
     post            = models.ForeignKey(Post)
     
     def __unicode__(self):
-        return str(self.date)   
+        return str(self.post)   
