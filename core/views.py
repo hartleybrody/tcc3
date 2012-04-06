@@ -37,7 +37,7 @@ def home_page(request):
         popular_post = get_popular_post(site)
         info = (site, popular_post, "Most Popular!")
         popular_posts.append(info)
-    # assert False
+
     return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA, 'featured_posts': popular_posts})
 
 def post(request, post_num):
