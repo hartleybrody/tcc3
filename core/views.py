@@ -128,7 +128,7 @@ def fetch_posts(request):
                 title       = feed.entries[item].title 
                 link        = feed.entries[item].link
                 epoch       = string_to_epoch( feed.entries[item].updated, site )
-            except Exception as e:
+            except e:
                 # log value not found
                 return HttpResponse("error getting value for %s: %s" % (site, str(e)) ) 
 
