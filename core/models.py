@@ -5,7 +5,7 @@ from django.db import models
 # class Account(models.Model):
     # first_name =        models.CharField(max_length=30)
     # last_name =         models.CharField(max_length=40)
-    # email =             models.EmailField() # validate on client side that it's .edu
+    # email =             models.EmailField()
     # password = 
     # location =          models.CharField(max_length=128)
     
@@ -36,7 +36,15 @@ class Post_Access(models.Model):
     rating          = models.SmallIntegerField()
     type_of_access  = models.CharField(max_length=12)
     post            = models.ForeignKey(Post)
-    visitor         = models.ForeignKey(Visitor)
+    visitor         = models.ForeignKey(Visitor, null=True, blank=True)
     
     def __unicode__(self):
-        return self.date      
+        return str(self.date)  
+        
+class Popular_Post(models.Model):
+    date_calculated = models.DateTimeField(auto_now_add=True)
+    site            = models.CharField(max_length=5)
+    post            = models.ForeignKey(Post)
+    
+    def __unicode__(self):
+        return str(self.date)   

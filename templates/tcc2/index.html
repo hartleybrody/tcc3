@@ -5,15 +5,32 @@
         {% for site in sites %}
         <div class="col">  
             <a href="{{ site.url }}" target="_blank" class="col_title">{{ site.name }}</a>
-            {% for posts_token, posts in all_fetched_posts.items %}
+            <div class="featuredItem">
+            {% for post in featured_posts %} 
+                {% ifequal site.token post.0 %} 
+                <a href="/post/{{ post.1.id }}/">
+                    {% if post.1.img_url %}
+                    <img src="{{ post.1.img_url }}" class="featuredImg" />
+                    {% else %}
+                    <img src="/static/img/sites/thumb-{{ post.0 }}.jpg" class="featuredImg" />
+                    {% endif %}
+                </a>
+                <a href="/post/{{ post.1.id }}/">
+                    <div class="featuredTitle">{{ post.1.title }}</div>
+                </a>
+                <span class="featuredMsg">{{ post.2 }}</span>
+                {% endifequal %}
+            {% endfor %}
+            </div>
             <ul>
+            {% for posts_token, posts in all_fetched_posts.items %}
                 {% ifequal site.token posts_token %}
                     {% for post in posts %}
-            <a href='/post/{{ post.id }}/'><li class='item new'>{{ post.title }}</li></a><!-- {{ post.date }} -->
+            <a href='/post/{{ post.id }}/'><li class='item new'>{{ post.title }}</li></a><!-- {{ post.published }} -->
                     {% endfor %}
                 {% endifequal %}
-            </ul>
             {% endfor %}
+            </ul>
         <div class="bottom"><a href="{{ site.url }}" target="_blank">View More &raquo;</a></div>
         </div>
         {% endfor %}

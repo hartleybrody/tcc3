@@ -3,13 +3,13 @@
 # django stuff
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
-from django.conf import settings
 
 # app stuff
-from tcc3.core.models import Visitor, Post, Post_Access
+from tcc3.core.models import Visitor, Post, Post_Access, Popular_Post
+from tcc3 import settings
 
 # 3rd party stuff
-from datetime import datetime
+from datetime import datetime, timedelta
 from time import mktime, gmtime
 import feedparser
 from BeautifulSoup import BeautifulSoup
@@ -30,8 +30,15 @@ def home_page(request):
     if not request.session.get('visitor_id', None):
         v = Visitor.objects.create()
         request.session['visitor_id'] = v.id
-    
-    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA})
+        
+    # pull the most popular posts
+    popular_posts = []
+    for site in settings.SITES:
+        popular_post = get_popular_post(site)
+        info = (site, popular_post, "Most Popular!")
+        popular_posts.append(info)
+    # assert False
+    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA, 'featured_posts': popular_posts})
 
 def post(request, post_num):
     try:
@@ -47,7 +54,7 @@ def post(request, post_num):
         visitor = Visitor.objects.get(id=visitor_id)
         a = Post_Access.objects.create(site=post.site, rating=0, post=post, type_of_access='', visitor=visitor)
     else:
-        a = Post_Access.objects.create(site=post.site, rating=0, post=post, type_of_access='', visitor=None)
+        a = Post_Access.objects.create(site=post.site, rating=0, post=post, type_of_access='')
         
     return render_to_response('tcc2/post.html', {'post' : post, 'next_post_id' : post.id - 1})
     
@@ -124,7 +131,12 @@ def fetch_posts(request):
             try:
                 p = Post.objects.get(url=link)
             except Post.DoesNotExist:
-                Post.objects.create(site=site, url=link, title=title, published=date, img_url=img_url)
+                try:
+                    Post.objects.create(site=site, url=link, title=title, published=date, img_url=img_url)
+                except:
+                    pass # skip for now
+                    # log error saving post
+                    # return HttpResponse("error saving post with title %s on %s" % (title, site) )
             else:
                 # this post already exists, don't add it
                 pass
@@ -141,9 +153,9 @@ def string_to_epoch(datetime_string, site):
     
     # different date formats on different sites, oh boy!
     if site == 'hf':
-        format_string = '%Y-%m-%dT%H:%M:%S.%f-05:00'
+        format_string = '%Y-%m-%dT%H:%M:%S.%f-04:00' # careful, this changes with daily savings time!
     elif site == 'fnt':
-        format_string = '%a, %d %b %Y %H:%M:%S PST'
+        format_string = '%a, %d %b %Y %H:%M:%S PDT' # careful, this changes with daily savings time!
     else:
         format_string = '%a, %d %b %Y %H:%M:%S +0000'
         
@@ -172,6 +184,32 @@ def get_post_image(html):
         if not contains_banned:
             return src
     return ''
+    
+def get_popular_post(site):
+    """return the most popular post for a site over the last 4 hours"""
+    try:
+        last_popular_post = Popular_Post.objects.filter(site=site).latest('date_calculated')
+    except:
+        last_popular_post = False
+        
+    cutoff = datetime.now() + timedelta(hours=-4)
+    
+    if not last_popular_post or last_popular_post.date_calculated < cutoff:
+        # too old, time to recalculate
+        recent_accesses = Post_Access.objects.filter(site=site)
+        
+        count_accesses = {}
+        for access in recent_accesses:
+            post = access.post
+            count = count_accesses.setdefault(post, 0) + 1
+            
+        most_accesses = sorted(count_accesses.items(), key= lambda x: x[1])[0]
+        return most_accesses[0]
+        
+    else:
+        return last_popular_post.post
+        
+        
     
 # smoke test!
 def smoke_test(request):
