@@ -202,15 +202,17 @@ def get_popular_post(site):
         for access in recent_accesses:
             post = access.post
             count = count_accesses.setdefault(post, 0) + 1
+            count_accesses[post] = count
             
-        most_accesses = sorted(count_accesses.items(), key= lambda x: x[1])[0]
-        return most_accesses[0]
+        most_accessed = sorted(count_accesses.items(), key= lambda x: x[1], reverse=True)[0][0]
+        
+        Popular_Post.objects.create(post=most_accessed, site=site)
+
+        return most_accessed
         
     else:
         return last_popular_post.post
         
-        
-    
 # smoke test!
 def smoke_test(request):
     """is anything on fire? no? good."""
