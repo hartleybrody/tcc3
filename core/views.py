@@ -41,10 +41,10 @@ def home_page(request):
         
     # pull the most popular posts
     popular_posts = []
-    for site in settings.SITES:
-        popular_post = get_popular_post(site)
-        info = (site, popular_post, "Most Popular!")
-        popular_posts.append(info)
+    # for site in settings.SITES:
+        # popular_post = get_popular_post(site)
+        # info = (site, popular_post, "Most Popular!")
+        # popular_posts.append(info)
 
     return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA, 'featured_posts': popular_posts, 'prev_visit': last_visit})
 
