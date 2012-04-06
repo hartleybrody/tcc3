@@ -208,6 +208,7 @@ def get_popular_post(site):
         
         count_accesses = {}
         for access in recent_accesses:
+            post = access.post
             if access.date > cutoff:
                 count = count_accesses.setdefault(post, 0) + 1
                 count_accesses[post] = count
