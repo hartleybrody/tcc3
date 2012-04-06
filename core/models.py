@@ -14,7 +14,7 @@ from django.db import models
 
 class Visitor(models.Model):
     first_visit         = models.DateTimeField(auto_now_add=True)
-    # last_visit        = models.DateTimeField(auto_now_add=True)
+    last_visit          = models.DateTimeField(auto_now=True)
     # current_visit     = models.DateTimeField(auto_now_add=True)
     
     def __unicode__(self):
