@@ -26,7 +26,7 @@
             {% for posts_token, posts in all_fetched_posts.items %}
                 {% ifequal site.token posts_token %}
                     {% for post in posts %}
-            <a href='/post/{{ post.id }}/'><li class='item new'>{{ post.title }}</li></a><!-- {{ post.published }} -->
+            <a href='/post/{{ post.id }}/'><li class='item {% if post.published > prev_visit %}new{% endif %}'>{{ post.title }}</li></a><!-- {{ post.published }} -->
                     {% endfor %}
                 {% endifequal %}
             {% endfor %}

@@ -26,10 +26,18 @@ def home_page(request):
         posts = Post.objects.filter(site=site).order_by("-published")[0:max_posts]
         all_fetched_posts[site] = posts
     
+    v_id = request.session.get('visitor_id', None)
+    
     # create new visitor if we haven't seen them before
-    if not request.session.get('visitor_id', None):
+    if not v_id:
         v = Visitor.objects.create()
         request.session['visitor_id'] = v.id
+        last_visit = v.last_visit
+    else:
+        v = Visitor.objects.get(id=v_id)
+        last_visit = v.last_visit
+        if last_visit < datetime.now()-timedelta(minutes=10):
+            v.save() # update the last_visit
         
     # pull the most popular posts
     popular_posts = []
@@ -38,7 +46,7 @@ def home_page(request):
         info = (site, popular_post, "Most Popular!")
         popular_posts.append(info)
 
-    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA, 'featured_posts': popular_posts})
+    return render_to_response('tcc2/index.html', {'all_fetched_posts': all_fetched_posts, 'sites': settings.SITE_DATA, 'featured_posts': popular_posts, 'prev_visit': last_visit})
 
 def post(request, post_num):
     try:
