@@ -194,13 +194,13 @@ def get_post_image(html):
     return ''
     
 def get_popular_post(site):
-    """return the most popular post for a site over the last 4 hours"""
+    """return the most popular post for a site over the last 8 hours"""
     try:
         last_popular_post = Popular_Post.objects.filter(site=site).latest('date_calculated')
     except:
         last_popular_post = False
         
-    cutoff = datetime.now() - timedelta(hours=4)
+    cutoff = datetime.now() - timedelta(hours=8)
     
     if not last_popular_post or last_popular_post.date_calculated < cutoff:
         # too old, time to recalculate
