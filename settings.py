@@ -148,7 +148,7 @@ SITE_DATA = [
     {'token': 'fnt',    'url': 'http://www.freshnewtracks.com/',   'name': 'Fresh New Tracks',     'feed': 'http://feeds.feedburner.com/freshnewnew'},
     {'token': 'rtv',    'url': 'http://www.remixthevideo.com/',    'name': 'Remix the Video',      'feed': 'http://feeds.feedburner.com/rtvmusic'},
     {'token': 'hf',     'url': 'http://www.hypefloats.com/',       'name': 'Hype Floats',          'feed': 'http://feeds.feedburner.com/hypefloats/HpYZ?format=xml'},
-    {'token': 'dml',    'url': 'http://dml.fm/',                   'name': 'Dirty Mex. Lemonade',   'feed': 'http://feeds.feedburner.com/dml/KBQh'},
+    {'token': 'dml',    'url': 'http://dml.fm/',                   'name': 'DML.fm',               'feed': 'http://feeds.feedburner.com/dml/KBQh'},
     {'token': 'tmg',    'url': 'http://www.themaskedgorilla.com/', 'name': 'The Masked Gorilla',   'feed': 'http://www.themaskedgorilla.com/feed/'},
     {'token': 'pnp',    'url': 'http://www.pigeonsandplanes.com/', 'name': 'Pigeons & Planes',     'feed': 'http://feeds.feedburner.com/pigeonsandplanes/gLxl'},
     {'token': 'gmad',   'url': 'http://www.goodmusicallday.com/',  'name': 'Good Music All Day',   'feed': 'http://www.goodmusicallday.com/feed/'},
