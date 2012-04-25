@@ -132,8 +132,11 @@ def fetch_posts(request):
                 # log value not found
                 return HttpResponse("error getting value for %s: %s" % (site, str(e)) ) 
 
-            date = epoch_to_django_date( epoch )
-            img_url = get_post_image( str(raw_html) )
+            try:
+                date = epoch_to_django_date( epoch )
+                img_url = get_post_image( str(raw_html) )
+            except:
+                pass
             
             # now that we've gotten the values for this feed item, let's see if we have it in the DB
             try:
