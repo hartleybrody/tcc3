@@ -113,8 +113,10 @@ def fetch_posts(request):
         
         if feed.bozo == 1:
             # log site's malformed feed
-            # return HttpResponse("malformed feed for %s" % site)
-            pass # we should be throwing an error, but GMAD isnt passing the bozo filter, despite having valid feed (Sept 13, 2012)
+            if site == "gmad":
+                pass # we should be throwing an error, but GMAD isnt passing the bozo filter, despite having valid feed (Sept 13, 2012)
+            else:
+                return HttpResponse("malformed feed for %s" % site)
             
         # try to get the most recent item and find when it was published
         # all_fetched_posts[site]['meta']['last_updated_epoch'] = string_to_epoch(feed.entries[0].updated, site)
