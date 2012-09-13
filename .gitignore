@@ -2,3 +2,4 @@
 local_settings.py
 remote_settings.py
 logs/*
+tcc3
