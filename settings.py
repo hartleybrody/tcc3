@@ -146,7 +146,8 @@ SITES = ['tk', 'fnt', 'rtv', 'hf', 'dml', 'tmg', 'pnp', 'gmad', 'bgb']
 SITE_DATA = [
     {'token': 'tk',     'url': 'http://www.thekollection.com/',    'name': 'The Kollection',       'feed': 'http://feeds.feedburner.com/thekollection'},
     {'token': 'fnt',    'url': 'http://www.freshnewtracks.com/',   'name': 'Fresh New Tracks',     'feed': 'http://feeds.feedburner.com/freshnewnew'},
-    {'token': 'rtv',    'url': 'http://www.remixthevideo.com/',    'name': 'Remix the Video',      'feed': 'http://feeds.feedburner.com/rtvmusic'},
+    # {'token': 'rtv',    'url': 'http://www.remixthevideo.com/',    'name': 'Remix the Video',      'feed': 'http://feeds.feedburner.com/rtvmusic'},
+    {'token': 'tsis',   'url': 'http://thissongissick.com/',        'name': 'This Song is Sick',   'feed': 'http://thissongissick.com/blog/feed/'},
     {'token': 'hf',     'url': 'http://www.hypefloats.com/',       'name': 'Hype Floats',          'feed': 'http://feeds.feedburner.com/hypefloats/HpYZ?format=xml'},
     {'token': 'dml',    'url': 'http://dml.fm/',                   'name': 'DML.fm',               'feed': 'http://feeds.feedburner.com/dml/KBQh'},
     {'token': 'tmg',    'url': 'http://www.themaskedgorilla.com/', 'name': 'The Masked Gorilla',   'feed': 'http://www.themaskedgorilla.com/feed/'},
