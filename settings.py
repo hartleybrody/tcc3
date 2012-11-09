@@ -141,7 +141,7 @@ TEMPLATE_DIRS += ( os.path.join(os.path.dirname(__file__), 'templates').replace(
 
 INSTALLED_APPS += ( 'tcc3.core', )
 
-SITES = ['tk', 'fnt', 'rtv', 'hf', 'dml', 'tmg', 'pnp', 'gmad', 'bgb']
+SITES = ['tk', 'fnt', 'tsis', 'hf', 'dml', 'tmg', 'pnp', 'gmad', 'bgb']
 
 SITE_DATA = [
     {'token': 'tk',     'url': 'http://www.thekollection.com/',    'name': 'The Kollection',       'feed': 'http://feeds.feedburner.com/thekollection'},
