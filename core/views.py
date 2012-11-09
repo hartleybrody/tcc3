@@ -168,7 +168,7 @@ def string_to_epoch(datetime_string, site):
     
     # different date formats on different sites, oh boy!
     if site == 'hf':
-        format_string = '%Y-%m-%dT%H:%M:%S.%f-04:00' # careful, this changes with daily savings time!
+        format_string = '%Y-%m-%dT%H:%M:%S.%f-05:00' # careful, this changes with daily savings time!
     elif site == 'fnt':
         format_string = '%a, %d %b %Y %H:%M:%S PST' # careful, this changes with daily savings time!
     else:
