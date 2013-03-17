@@ -168,9 +168,9 @@ def string_to_epoch(datetime_string, site):
     
     # different date formats on different sites, oh boy!
     if site == 'hf':
-        format_string = '%Y-%m-%dT%H:%M:%S.%f-05:00' # careful, this changes with daily savings time!
+        format_string = '%Y-%m-%dT%H:%M:%S.%f-04:00' # careful, this changes with daily savings time!
     elif site == 'fnt':
-        format_string = '%a, %d %b %Y %H:%M:%S PST' # careful, this changes with daily savings time!
+        format_string = '%a, %d %b %Y %H:%M:%S PDT' # careful, this changes with daily savings time!
     else:
         format_string = '%a, %d %b %Y %H:%M:%S +0000'
         
@@ -236,5 +236,3 @@ def smoke_test(request):
     """is anything on fire? no? good."""
     now = datetime.now()
     return render_to_response('smoke_test.html', {'current_date': now})
-        
-        
