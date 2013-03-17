@@ -152,7 +152,7 @@ SITE_DATA = [
     {'token': 'dml',    'url': 'http://dml.fm/',                   'name': 'DML.fm',               'feed': 'http://feeds.feedburner.com/dml/KBQh'},
     {'token': 'tmg',    'url': 'http://www.themaskedgorilla.com/', 'name': 'The Masked Gorilla',   'feed': 'http://www.themaskedgorilla.com/feed/'},
     {'token': 'pnp',    'url': 'http://www.pigeonsandplanes.com/', 'name': 'Pigeons & Planes',     'feed': 'http://feeds.feedburner.com/pigeonsandplanes/gLxl'},
-    {'token': 'gmad',   'url': 'http://www.goodmusicallday.com/',  'name': 'Good Music All Day',   'feed': 'http://www.goodmusicallday.com/feed/'},
+    {'token': 'gmad',   'url': 'http://www.goodmusicallday.com/',  'name': 'Good Music All Day',   'feed': 'http://goodmusicallday.com/feed/'},
     {'token': 'bgb',    'url': 'http://www.biggreenbeats.com/',    'name': 'Big Green Beats',      'feed': 'http://feeds.feedburner.com/BigGreenBeats'},
 ]
 
