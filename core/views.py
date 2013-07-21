@@ -134,7 +134,8 @@ def fetch_posts(request):
                 epoch       = string_to_epoch( feed.entries[item].updated, site )
             except Exception as e:
                 # log value not found
-                return HttpResponse("error getting value for %s: %s" % (site, str(e)) ) 
+                pass
+                # return HttpResponse("error getting value for %s: %s" % (site, str(e)) ) 
 
             try:
                 date = epoch_to_django_date( epoch )
